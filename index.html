@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Car Throttle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .slider-container {
+      width: 500px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 15px;
+      background: #ddd;
+      border-radius: 5px;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #89ff00;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #89ff00;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .speed {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider-container">
+    <p class="speed">0 km/h</p>
+    <input type="range" min="0" max="1" step="0.01" class="slider" id="throttle">
+  </div>
+
+  <audio id="carSound" loop>
+    <source src="car-sound.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const throttleSlider = document.getElementById("throttle");
+    const carSound = document.getElementById("carSound");
+    const speedDisplay = document.querySelector(".speed");
+
+    throttleSlider.addEventListener("input", function() {
+      const volume = throttleSlider.value;
+      carSound.volume = volume;
+
+      // Adjust car sound pitch based on throttle value
+      const pitch = 1 + (volume * 0.5); // Adjust 0.5 for desired pitch range
+      carSound.playbackRate = pitch;
+
+      // Calculate and display speed based on throttle value (adjust conversion as needed)
+      const speed = Math.floor(volume * 200); // Adjust multiplier for desired speed range
+      speedDisplay.textContent = `${speed} km/h`;
+    });
+  </script>
+</body>
+</html>
